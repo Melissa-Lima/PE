@@ -1,0 +1,4 @@
+Variaveis globais: i,j
+Variaveis locais:	soma,q,c (func soma1)
+					ra,k (func soma2)
+					i,k,ra,p (main)
