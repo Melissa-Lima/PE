@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+// Funcao principal
+int main() {
+  /* Imprime hello world na saida padrao */
+  printf("Hello world\n");
+
+  return 0;
+}

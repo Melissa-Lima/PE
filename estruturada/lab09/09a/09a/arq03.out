@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+
+double approx_pi(int n) {
+  return 0.0;
+}
+
+
+double square_the_biggest(float n1, float n2) {
+  return 0.0;
+}
+
+int main()
+{
+  
+ 
+  printf("Writing comments is very useful.\n");
+ 
+  
+ 
+  
+ 
+  return 0;
+}

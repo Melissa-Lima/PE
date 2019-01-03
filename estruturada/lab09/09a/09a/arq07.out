@@ -1,0 +1,132 @@
+
+ 
+
+#include <stdio.h>
+
+
+int main() {
+
+  int N, M, T, I, x, y;
+  char L, D, direcao;
+  int i, j, z, sem_zumbi;
+  
+  char supermercado[100][100];
+  
+  int zumbi[100][4];
+
+  
+  scanf("%d %d\n", &N, &M);
+
+  
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < M; j++) {
+      scanf("%c", &supermercado[i][j]);
+    }
+    scanf("\n");
+  }
+
+  
+  scanf("%d\n", &T);
+  for (z = 0; z < T; z++) {
+    scanf("%c %c %d %d\n", &L, &D, &x, &y);
+    
+    zumbi[z][0] = 0;
+    if (L == 'L')
+      zumbi[z][0] = 1;
+    
+    switch (D) {
+    case 'N':
+      zumbi[z][1] = 0;
+      break;
+    case 'E':
+      zumbi[z][1] = 1;
+      break;
+    case 'S':
+      zumbi[z][1] = 2;
+      break;
+    case 'W':
+      zumbi[z][1] = 3;
+      break;
+    }
+    
+    zumbi[z][2] = x;
+    zumbi[z][3] = y;
+    supermercado[x][y] = '#';
+  }
+
+  
+  scanf("%d\n", &I);
+
+  
+  for (i = 0; i < I; i++) {
+    for (z = 0; z < T; z++) {
+      x = zumbi[z][2];
+      y = zumbi[z][3];
+      
+      switch (zumbi[z][1]) {
+      case 0:
+        x--;
+        break;
+      case 1:
+        y++;
+        break;
+      case 2:
+        x++;
+        break;
+      case 3:
+        y--;
+        break;
+      }
+      
+      if (supermercado[x][y] == 'X') {
+        if (zumbi[z][0] == 0) {
+          
+          zumbi[z][1] = (zumbi[z][1]+1) % 4;
+        } else {
+          
+          zumbi[z][1] = (zumbi[z][1]+3) % 4;
+        }
+      } else {
+        zumbi[z][2] = x;
+        zumbi[z][3] = y;
+        
+      }
+    }
+  }
+
+  
+  for (z = 0; z < T; z++) {
+    switch (zumbi[z][1]) {
+    case 0:
+      direcao = 'N';
+      break;
+    case 1:
+      direcao = 'E';
+      break;
+    case 2:
+      direcao = 'S';
+      break;
+    case 3:
+      direcao = 'W';
+      break;
+    }
+    printf("Zumbi %d: (%d, %d, %c)\n", 
+           z+1, zumbi[z][2], zumbi[z][3], direcao);
+  }
+
+  printf("\n");
+
+  
+  sem_zumbi = 0;
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < M; j++) {
+      
+      if (supermercado[i][j] == ' ')
+        sem_zumbi++;
+    }
+    
+  }
+  
+    
+  return 0;
+}

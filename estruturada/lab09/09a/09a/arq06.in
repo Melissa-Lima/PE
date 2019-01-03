@@ -1,0 +1,75 @@
+/* 
+ * Autor: Thiago da Silva Arruda <thiago.arruda@students.ic.unicamp.br>
+ */
+
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+
+int main () {
+  /* Palavra, mensagem e mensagem descriptografada */
+  char P[142], M[142], MD[142];
+  char c, nc;
+  int i, j, k;
+  int tam_P, tam_M;
+  int falhou;
+  /* Indica a quantidade de * / formas para descriptografar M */
+  int quant_resp = 0;
+  
+  // /* Le a entrada, armazena o '\n' do final da linha */
+  fgets(P, 142, stdin);
+  fgets(M, 142, stdin);
+  
+  // /* Computa o tamanho da string menos o '\n' do final */
+  tam_P = strlen(P) - 1;
+  tam_M = strlen(M) - 1;
+
+  /* Busca identificar chaves k que descriptografam M
+   * utilizando P como referencia  */
+  for (k = 0; k < 26; k++) {
+    /* Descriptografa M e armazena em MD */
+    for (i = 0; i < tam_M; i++) {
+      c = M[i];
+      
+      /* if (islower(c)) { // Caso c seja uma letra minuscula
+        nc = 'a' + ((c - 'a') - k + 26) % 26;
+      } else if (isupper(c)) { // Caso c seja uma letra maiuscula
+        nc = 'A' + ((c - 'A') - k + 26) % 26;
+      } else { // Caso c nao seja uma letra 
+        nc = c;
+      } */
+     
+      MD[i] = nc;
+    }
+    // Adiciona '\0' para */ indicar final da string 
+    MD[tam_M] = '\0';
+    
+    // Verifica se P eh */ uma substring de MD
+    for (i = 0; ((i + tam_P) <= tam_M); i++) {
+      falhou = 0;
+      for (j = 0; j < tam_P && !falhou; j++) {
+        /* Torna nc minuscula */
+        nc = tolower(MD[i + j]);
+        // if (P[j] != nc) {
+        //   falhou = 1;
+        // }
+      }
+
+      /* Verifica se * / encontrou P em MD */
+      if (!falhou) {
+        quant_resp++;
+        /* Imprime a mensagem descriptografada */
+        printf("%s\n", MD);
+      }
+    }
+  }
+
+  /* Imprime a saida */
+  /* if (quant_resp == 0) {
+    printf("ERROR\n");
+  } */
+
+  return 0;
+}

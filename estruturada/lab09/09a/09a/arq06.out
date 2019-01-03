@@ -1,0 +1,64 @@
+
+
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+
+int main () {
+  
+  char P[142], M[142], MD[142];
+  char c, nc;
+  int i, j, k;
+  int tam_P, tam_M;
+  int falhou;
+  
+  int quant_resp = 0;
+  
+  
+  fgets(P, 142, stdin);
+  fgets(M, 142, stdin);
+  
+  
+  tam_P = strlen(P) - 1;
+  tam_M = strlen(M) - 1;
+
+  
+  for (k = 0; k < 26; k++) {
+    
+    for (i = 0; i < tam_M; i++) {
+      c = M[i];
+      
+      
+     
+      MD[i] = nc;
+    }
+    
+    MD[tam_M] = '\0';
+    
+    
+    for (i = 0; ((i + tam_P) <= tam_M); i++) {
+      falhou = 0;
+      for (j = 0; j < tam_P && !falhou; j++) {
+        
+        nc = tolower(MD[i + j]);
+        
+        
+        
+      }
+
+      
+      if (!falhou) {
+        quant_resp++;
+        
+        printf("%s\n", MD);
+      }
+    }
+  }
+
+  
+  
+
+  return 0;
+}

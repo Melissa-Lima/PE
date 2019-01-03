@@ -1,0 +1,140 @@
+/*
+ * Autor: Thiago da Silva Arruda <thiago.arruda@students.ic.unicamp.br>
+ */ 
+
+
+#include <stdio.h>
+
+
+/* Para o reino r, busca o reino vizinho de maior forca s que pode ser
+   conquistado por r. Retorna a letra que identifica o reino s, ou
+   q'\0', caso nao exista tal reino. */ 
+char buscar_reino_viz(int r, char mapa[][101], int F[], int N, int M) {
+  /* Adjacencias:
+   * (1,0): direita
+   * (-1,0): esquerda
+   * (0,1): acima
+   * (0,-1): abaixo
+   */
+  int x_adj[] = {1, -1, 0, 0};
+  int y_adj[] = {0, 0, 1, -1};
+  int i,j,k;
+  int x,y;
+  /* /* Variaveis para reino vizinho */  
+  int s;  
+  int eh_vizinho;
+  int max_forca_viz = 0;
+  int pode_atacar_viz = 0;
+  char letra_viz = 'Z';
+  char letra_reino = 'A' + (char)r;
+        
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < M; j++) {
+      if (mapa[i][j] != letra_reino) {
+        eh_vizinho = 0;
+        /* Verifica se o bloco (i,j) eh adjacente ao reino atual*/
+        for (k = 0; k < 4 && !eh_vizinho; k++) {
+          x = i + x_adj[k];
+          y = j + y_adj[k];
+          /* Verifica se a posicao (x,y) eh valida e vizinha do reino
+             atual */
+          if ((x >= 0 && x < N && y >= 0 && y < M) 
+              && mapa[x][y] == letra_reino) {
+            s = mapa[i][j] - 'A'; /* id do reino vizinho */
+            /* Verifica se eh possivel atacar o reino vizinho*/
+            if ((F[s] < F[r]) && 
+                ((F[s] > max_forca_viz) || 
+                 (F[s] == max_forca_viz && mapa[i][j] < letra_viz))) {
+              max_forca_viz = F[s];
+              letra_viz = mapa[i][j];
+              pode_atacar_viz = 1;
+            }
+            eh_vizinho = 1;
+          }
+        } 
+      }
+    }
+  }
+
+  if (pode_atacar_viz)
+    return letra_viz;
+  else
+    return '\0';
+}
+
+
+/* Substitui o caractere lv por lr no mapa. */ 
+void modificar_mapa(char lr, char lv, char mapa[][101], int N, int M) {
+  int i, j;
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < M; j++) {
+      if (mapa[i][j] == lv)
+        mapa[i][j] = lr;
+    }
+  }
+}
+
+
+int main () {
+
+  /* Forca dos reinos */
+  int F[26];
+  /* Mapa do continente */
+  char mapa[100][101];
+  /* Numero de reinos */
+  int R;
+  /* Dimensoes do mapa */
+  int N, M;
+  /* Variaveis auxiliares */
+  int i, j, r, s;  
+  char letra_reino,  letra_viz, c;
+  int conquistou = 1;
+  
+  /* Descobre o numero de reinos */
+  scanf("%d", &R);
+ 
+  /* Descobre as forcas de cada reino */
+  for (i = 0; i < R; i++) {
+    scanf("%d", &F[i]);
+  }
+  
+  /* Faz a leitura do mapa inicial */
+  scanf("%d %d\n", &N, &M);
+  /* for (i = 0; i < N; i++) {
+    // for (j = 0; j < M; j++)
+    //  scanf("%c", &mapa[i][j]);
+    // scanf("%c", &c);
+    // mapa[i][M] = '\0';
+  } */
+  
+  // /* Enquanto ocorrer alguma conquista */ em uma rodada 
+  while (conquistou) {
+    conquistou = 0;
+    // /* Para cada reino na rodada */
+    for (r = 0; r < R; r++){
+      letra_reino = 'A' + r;
+      
+      if (F[r] > 0) {
+        /* Procura pelo reino vizinho com maior forca que pode ser 
+         * invadido */
+        letra_viz = buscar_reino_viz(r, mapa, F, N, M);
+        if (letra_viz != '\0') {
+          // /* Conquista o reino vizinho */
+          s = letra_viz - 'A'; /* id do reino vizinho */
+          F[r] += F[s];
+          F[s] = 0; 
+          // /* Modifica // o */ mapa 
+          modificar_mapa(letra_reino, letra_viz, mapa, N, M);
+          conquistou = 1;
+        }
+      }
+    }
+  }
+
+  /* Saida
+  /* for (i = 0; i < N; i++) {
+    // printf("%s\n",mapa[i]);
+  } */
+
+  return 0;
+}

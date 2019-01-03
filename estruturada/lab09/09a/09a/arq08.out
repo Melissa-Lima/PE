@@ -1,0 +1,121 @@
+ 
+
+
+#include <stdio.h>
+
+
+ 
+char buscar_reino_viz(int r, char mapa[][101], int F[], int N, int M) {
+  
+  int x_adj[] = {1, -1, 0, 0};
+  int y_adj[] = {0, 0, 1, -1};
+  int i,j,k;
+  int x,y;
+    
+  int s;  
+  int eh_vizinho;
+  int max_forca_viz = 0;
+  int pode_atacar_viz = 0;
+  char letra_viz = 'Z';
+  char letra_reino = 'A' + (char)r;
+        
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < M; j++) {
+      if (mapa[i][j] != letra_reino) {
+        eh_vizinho = 0;
+        
+        for (k = 0; k < 4 && !eh_vizinho; k++) {
+          x = i + x_adj[k];
+          y = j + y_adj[k];
+          
+          if ((x >= 0 && x < N && y >= 0 && y < M) 
+              && mapa[x][y] == letra_reino) {
+            s = mapa[i][j] - 'A'; 
+            
+            if ((F[s] < F[r]) && 
+                ((F[s] > max_forca_viz) || 
+                 (F[s] == max_forca_viz && mapa[i][j] < letra_viz))) {
+              max_forca_viz = F[s];
+              letra_viz = mapa[i][j];
+              pode_atacar_viz = 1;
+            }
+            eh_vizinho = 1;
+          }
+        } 
+      }
+    }
+  }
+
+  if (pode_atacar_viz)
+    return letra_viz;
+  else
+    return '\0';
+}
+
+
+ 
+void modificar_mapa(char lr, char lv, char mapa[][101], int N, int M) {
+  int i, j;
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < M; j++) {
+      if (mapa[i][j] == lv)
+        mapa[i][j] = lr;
+    }
+  }
+}
+
+
+int main () {
+
+  
+  int F[26];
+  
+  char mapa[100][101];
+  
+  int R;
+  
+  int N, M;
+  
+  int i, j, r, s;  
+  char letra_reino,  letra_viz, c;
+  int conquistou = 1;
+  
+  
+  scanf("%d", &R);
+ 
+  
+  for (i = 0; i < R; i++) {
+    scanf("%d", &F[i]);
+  }
+  
+  
+  scanf("%d %d\n", &N, &M);
+  
+  
+  
+  while (conquistou) {
+    conquistou = 0;
+    
+    for (r = 0; r < R; r++){
+      letra_reino = 'A' + r;
+      
+      if (F[r] > 0) {
+        
+        letra_viz = buscar_reino_viz(r, mapa, F, N, M);
+        if (letra_viz != '\0') {
+          
+          s = letra_viz - 'A'; 
+          F[r] += F[s];
+          F[s] = 0; 
+          
+          modificar_mapa(letra_reino, letra_viz, mapa, N, M);
+          conquistou = 1;
+        }
+      }
+    }
+  }
+
+  
+
+  return 0;
+}

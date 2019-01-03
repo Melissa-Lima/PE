@@ -1,0 +1,64 @@
+// Autor: Thiago da Silva // Arruda <thiago.arruda@students.ic.unicamp.br>
+
+#include <stdio.h>
+
+int main() {
+
+  /* int N, M, C;
+  int i,d;
+  // Indice do equipamento que causou o desarme do disjuntor
+  int E = 0;
+  // Indice do comando que causou o disarme do disjuntor
+  int K = 0;
+  // Armazena corrente atual que passa pelo disjuntor
+  int corr_atual = 0;
+  // Armazena a corrente maxima registrada
+  int corr_max = 0;
+  // disp[x] armazena a amperagem do dispositivo de indice (x + 1)
+  int disp[50];
+  // ligado[x] indica o estado do disposivo (x + 1):
+  // 1: ligado
+  // 0: desligado
+  int ligado[50];
+
+  scanf("%d %d %d", &N, &M, &C);
+        
+  for (i = 0; i < N; i++) {             
+    // Le a amperagem dos dispositivos
+    scanf("%d", &disp[i]);
+    // Inicializa o vetor ligado: todos dispositivos desligados
+    ligado[i] = 0;
+  }
+
+  //Le a sequencia de operacoes
+  for (i = 1; i <= M && E == 0; i++) {
+    // Le o indice do dispositivo que sera manipulado
+    scanf("%d", &d); 
+    if (ligado[d - 1] == 0) {
+      ligado[d - 1] = 1;
+      corr_atual += disp[d - 1];
+      // Neste caso o disjuntor desarma!
+      if (corr_atual > C) {
+        E = d;
+        K = i;
+      }
+      if (corr_atual > corr_max) {
+        corr_max = corr_atual;
+      }
+    } else {
+      ligado[d - 1] = 0;
+      corr_atual -= disp[d - 1];
+    }
+  }
+        
+  // Imprime a saida
+  if (E != 0) { 
+    // Ocorreu desarme do disjuntor
+    printf("Oh no! The circuit breaker was overloaded at (%d, %d).\n", E, K);
+  } else {
+    // O disjuntor nao caiu
+    printf("Bazinga! The maximal consumption was %d.\n", corr_max);
+  } */
+
+  return 0;
+}

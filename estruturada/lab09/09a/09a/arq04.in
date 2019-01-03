@@ -1,0 +1,50 @@
+// /* Laboratorio 03a - Procurando numeros amigos */
+// /* Autores: Zanoni Dias e Gustavo R. Galvao */
+// /* Email: */ zanoni@ic.unicamp.br e ggalvao@ic.unicamp.br
+
+#include <stdio.h>
+
+int main() {
+  int encontrouAmigo = 0;       
+  int a, b, c, i, j, somaDivA, somaDivJ;
+
+  // le a entrada
+  scanf("%d %d %d", &a, &b, &c);
+
+  // calcula a soma dos divisores de a e armazena o valor na variavel somaDivA 
+  somaDivA = a;
+  for (i = 1; i <= a / 2; i++) {
+    if (a % i == 0) {
+      somaDivA += i;
+    }
+  }
+
+  // procura pelos amigos de a no intervalo */ [b, c]
+  for (j = b; j <= c; j++) {
+    if(j != a) {
+      // calcula a soma dos divisores de j e armazena o valor na variavel somaDivJ
+      somaDivJ = j;
+      /*  for (i = 1; i <= j / 2; i++) {
+        if (j % i == 0) {
+          somaDivJ += i;
+        }
+      }*/
+
+      /* // verifica se a e j * / * / sao amigos... */
+      if (somaDivA * j == somaDivJ * a) {
+        //... e, em caso positivo, imprime uma linha contendo j e atualiza a variavel encontrouAmigo
+        printf("%d\n", j);
+        encontrouAmigo = 1;
+      }
+    }
+  }
+
+  // caso nao tenhamos encontrado nenhum amigo de a no */ intervalo [b, c], imprime uma linha informando esse fato
+  if (!encontrouAmigo) {
+    printf("Nenhum amigo nesse intervalo.\n");
+  }
+  
+  return 0;
+}
+
+

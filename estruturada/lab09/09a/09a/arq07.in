@@ -1,0 +1,161 @@
+/***********************************************************
+ * Created: Dom 07 Abr 2013 17:26:43 BRT
+ *
+ * Author: Carla N. Lintzmayer, carlanl@ic.unicamp.br
+ *
+ ***********************************************************/
+ 
+
+#include <stdio.h>
+
+
+int main() {
+
+  int N, M, T, I, x, y;
+  char L, D, direcao;
+  int i, j, z, sem_zumbi;
+  /* Para cada posicao supermercado[x][y]:
+   *   " " indica que nenhum zumbi passou ali,
+   *   "X" indica que existe prateleira ou parede ali,
+   *   "#" indica que um zumbi passou por ali */
+  char supermercado[100][100];
+  /* Cada zumbi[i] tem 4 informacoes:
+   *   zumbi[i][0] armazena a lateralidade:
+   *      // 0 se ele eh destro
+   *      // 1 se ele eh canhoto
+   *   zumbi[i][1] armazena a direcao atual:
+   *      // 0 = north
+   *      // 1 = east
+   *      // 2 = south
+   *      // 3 = west
+   *   zumbi[i][2] armazena a linha da posicao atual do zumbi
+   *   zumbi[i][3] armazena a coluna da posicao atual do zumbi */
+  int zumbi[100][4];
+
+  /* Fazendo leitura do tamanho do supermercado */
+  scanf("%d %d\n", &N, &M);
+
+  /* Fazendo leitura e preenchendo as prateleiras do supermercado */
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < M; j++) {
+      scanf("%c", &supermercado[i][j]);
+    }
+    scanf("\n");
+  }
+
+  /* Fazendo leitura da quantidade de zumbis e da direcao,
+   * lateralidade e posicao atual de cada um */
+  scanf("%d\n", &T);
+  for (z = 0; z < T; z++) {
+    scanf("%c %c %d %d\n", &L, &D, &x, &y);
+    /* Guardando se o zumbi eh destro (0) ou canhoto (1) */
+    zumbi[z][0] = 0;
+    if (L == 'L')
+      zumbi[z][0] = 1;
+    /* Guardando a direcao atual do zumbi */
+    switch (D) {
+    case 'N':
+      zumbi[z][1] = 0;
+      break;
+    case 'E':
+      zumbi[z][1] = 1;
+      break;
+    case 'S':
+      zumbi[z][1] = 2;
+      break;
+    case 'W':
+      zumbi[z][1] = 3;
+      break;
+    }
+    /* // Guardando a posicao atual do zumbi.
+     * // Deve-se marcar tambem no supermercado que um zumbi 
+     * // passou por tal posicao */
+    zumbi[z][2] = x;
+    zumbi[z][3] = y;
+    supermercado[x][y] = '#';
+  }
+
+  /* Fazendo leitura do instante de tempo em que se deve parar a
+     simulacao */
+  scanf("%d\n", &I);
+
+  /* Em cada instante de tempo ateh I, atualizar a posicao atual e
+   * direcao de cada um dos zumbis */
+  for (i = 0; i < I; i++) {
+    for (z = 0; z < T; z++) {
+      x = zumbi[z][2];
+      y = zumbi[z][3];
+      /* Apos esse switch, x e y vao manter as coordenadas da
+       * proxima casa, considerando a direcao atual do zumbi */
+      switch (zumbi[z][1]) {
+      case 0:
+        x--;
+        break;
+      case 1:
+        y++;
+        break;
+      case 2:
+        x++;
+        break;
+      case 3:
+        y--;
+        break;
+      }
+      /* Se houver parede, apenas girar o zumbi, de acordo com sua
+       * lateralidade, e atualizar a direcao atual.
+       * Caso contrario, atualizar apenas a posicao atual do zumbi
+       * e a posicao no supermercado (algum zumbi passou por ali) */
+      if (supermercado[x][y] == 'X') {
+        if (zumbi[z][0] == 0) {
+          /* Virar para a direita */
+          zumbi[z][1] = (zumbi[z][1]+1) % 4;
+        } else {
+          /* Virar para a esquerda */
+          zumbi[z][1] = (zumbi[z][1]+3) % 4;
+        }
+      } else {
+        zumbi[z][2] = x;
+        zumbi[z][3] = y;
+        /* supermercado[x][y] = '#'; */
+      }
+    }
+  }
+
+  /* Imprimindo o estado atual de cada zumbi */
+  for (z = 0; z < T; z++) {
+    switch (zumbi[z][1]) {
+    case 0:
+      direcao = 'N';
+      break;
+    case 1:
+      direcao = 'E';
+      break;
+    case 2:
+      direcao = 'S';
+      break;
+    case 3:
+      direcao = 'W';
+      break;
+    }
+    printf("Zumbi %d: (%d, %d, %c)\n", 
+           z+1, zumbi[z][2], zumbi[z][3], direcao);
+  }
+
+  printf("\n");
+
+  /* Imprimindo a situacao atual do supermercado.
+   * Deve-se tambem contar a quantidade de locais onde 
+   * nenhum zumbi passou e imprimir ao fim */
+  sem_zumbi = 0;
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < M; j++) {
+      // printf("%c", supermercado[i][j]);
+      if (supermercado[i][j] == ' ')
+        sem_zumbi++;
+    }
+    // printf("\n");
+  }
+  // printf("\n%d\n", sem_zumbi);
+    
+  return 0;
+}

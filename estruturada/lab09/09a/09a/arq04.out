@@ -1,0 +1,46 @@
+
+
+
+
+#include <stdio.h>
+
+int main() {
+  int encontrouAmigo = 0;       
+  int a, b, c, i, j, somaDivA, somaDivJ;
+
+  
+  scanf("%d %d %d", &a, &b, &c);
+
+  
+  somaDivA = a;
+  for (i = 1; i <= a / 2; i++) {
+    if (a % i == 0) {
+      somaDivA += i;
+    }
+  }
+
+  
+  for (j = b; j <= c; j++) {
+    if(j != a) {
+      
+      somaDivJ = j;
+      
+
+      
+      if (somaDivA * j == somaDivJ * a) {
+        
+        printf("%d\n", j);
+        encontrouAmigo = 1;
+      }
+    }
+  }
+
+  
+  if (!encontrouAmigo) {
+    printf("Nenhum amigo nesse intervalo.\n");
+  }
+  
+  return 0;
+}
+
+
